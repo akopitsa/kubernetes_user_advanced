@@ -5,9 +5,17 @@ brew update && brew install kubectl && brew cask install docker virtualbox && br
 minikube start
 minikube start --driver=virtualbox
 minikube start --driver=hyperv
+minikube addons enable dashboard
+minikube addons enable ingress
+
+
+minikube service nginx-svc --url
+
+
+
 
 
 kubectl get deployments nginx-deployment
 kubectl describe deployments nginx-deployment
 
-kubectl delete deployment hello-world
+kubectl expose deployment nginx-deployment --target-port=80 --type=NodePort
