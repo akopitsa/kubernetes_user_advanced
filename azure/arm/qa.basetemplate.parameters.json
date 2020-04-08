@@ -1,0 +1,57 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "keyInformation": {
+      "value": {
+        "department": "wkh",
+        "scope": {
+          "apim": "apim",
+          "agw": "agw",
+          "cbase": "cbase",
+          "cosdb": "cosdb",
+          "neo4j": "neo4j",
+          "solr": "solr",
+          "zk": "zk",
+          "asf": "asf"
+        },
+        "product": {
+          "ps": "ps",
+          "ssr": "ssr"
+        },
+        "environment": "k8s"
+      }
+    },
+    "resourceName": {
+      "value": {
+        "NetworkSecurityGroupName": "nsg-",
+        "VirtualNetworkname": "vnet-",
+        "SubnetName": "snet-"
+      }
+    },
+    "wkVirtualNetwork": {
+      "value": "10.26.0.0/16"
+    },
+    "AppGwSubnet": {
+      "value": "10.26.1.0/24"
+    },
+    "ApimSubnet": {
+      "value": "10.26.2.0/24"
+    },
+    "ServiceFabricSubnet": {
+      "value": "10.26.3.0/24"
+    },
+    "SolrSubnet": {
+      "value": "10.26.6.0/24"
+    },
+    "Neo4jSubnet": {
+      "value": "10.26.5.0/24"
+    },
+    "CouchBaseSubnet": {
+      "value": "10.26.4.0/24"
+    },
+    "ZookeeperSubnet": {
+      "value": "10.26.7.0/24"
+    }
+  }
+}

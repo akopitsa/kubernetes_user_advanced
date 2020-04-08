@@ -1,0 +1,337 @@
+﻿{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "keyInformation": {
+      "type": "object",
+      "metadata": {
+        "description": "Key Information"
+      }
+    },
+    "resourceName": {
+      "type": "object",
+      "metadata": {
+        "description": "Resource Names"
+      }
+    },
+    "networkName": {
+      "type": "string",
+      "defaultValue": "[concat(parameters('resourceName').VirtualNetworkname, parameters('keyInformation').product.ps, '-', parameters('keyInformation').environment)]"
+    },
+    "SolrNetworkSecurityGroupName": {
+      "type": "string",
+      "defaultValue": "[concat(parameters('resourceName').NetworkSecurityGroupName, parameters('keyInformation').product.ps, '-', parameters('keyInformation').scope.solr, '-', parameters('keyInformation').environment)]"
+    },
+    "ASFNetworkSecurityGroupName": {
+      "type": "string",
+      "defaultValue": "[concat(parameters('resourceName').NetworkSecurityGroupName, parameters('keyInformation').product.ps, '-', parameters('keyInformation').scope.asf, '-', parameters('keyInformation').environment)]"
+    },
+    "ZkNetworkSecurityGroupName": {
+      "type": "string",
+      "defaultValue": "[concat(parameters('resourceName').NetworkSecurityGroupName, parameters('keyInformation').product.ps, '-', parameters('keyInformation').scope.zk, '-', parameters('keyInformation').environment)]"
+    },
+    "Neo4jNetworkSecurityGroupName": {
+      "type": "string",
+      "defaultValue": "[concat(parameters('resourceName').NetworkSecurityGroupName, parameters('keyInformation').product.ps, '-', parameters('keyInformation').scope.neo4j, '-', parameters('keyInformation').environment)]"
+    },
+    "CbaseNetworkSecurityGroupName": {
+      "type": "string",
+      "defaultValue": "[concat(parameters('resourceName').NetworkSecurityGroupName, parameters('keyInformation').product.ps, '-', parameters('keyInformation').scope.cbase, '-', parameters('keyInformation').environment)]"
+    },
+    "ApimNetworkSecurityGroupName": {
+      "type": "string",
+      "defaultValue": "[concat(parameters('resourceName').NetworkSecurityGroupName, parameters('keyInformation').product.ps, '-', parameters('keyInformation').scope.apim, '-', parameters('keyInformation').environment)]"
+    },
+    "AppGwNetworkSecurityGroupName": {
+      "type": "string",
+      "defaultValue": "[concat(parameters('resourceName').NetworkSecurityGroupName, parameters('keyInformation').product.ps, '-', parameters('keyInformation').scope.agw, '-', parameters('keyInformation').environment)]"
+    },
+    "WKvirtualNetwork": {
+      "type": "string",
+      "defaultValue": "10.0.0.0/16"
+    },
+    "AppGwSubnet": {
+      "type": "string"
+    },
+    "ApimSubnet": {
+      "type": "string"
+    },
+    "ServiceFabricSubnet": {
+      "type": "string"
+    },
+    "SolrSubnet": {
+      "type": "string"
+    },
+    "Neo4jSubnet": {
+      "type": "string"
+    },
+    "CouchBaseSubnet": {
+      "type": "string"
+    },
+    "ZookeeperSubnet": {
+      "type": "string"
+    }
+  },
+  "variables": {
+	  "SecurityGroupsApiVersion": "[if(contains(providers('Microsoft.Network','networkSecurityGroups').apiVersions[0], 'preview'), providers('Microsoft.Network','networkSecurityGroups').apiVersions[1], providers('Microsoft.Network','networkSecurityGroups').apiVersions[0])]",
+    "VirtualNetworksApiVersion": "[if(contains(providers('Microsoft.Network','virtualNetworks').apiVersions[0], 'preview'), providers('Microsoft.Network','virtualNetworks').apiVersions[1], providers('Microsoft.Network','virtualNetworks').apiVersions[0])]"
+
+	},
+  "resources": [
+    {
+      "name": "[parameters('SolrNetworkSecurityGroupName')]",
+      "type": "Microsoft.Network/networkSecurityGroups",
+      "apiVersion": "[variables('SecurityGroupsApiVersion')]",
+      "location": "[resourceGroup().location]",
+      "tags": {
+        "displayName": "[parameters('networkName')]",
+        "environment": "[parameters('keyInformation').environment]",
+        "product": "[parameters('keyInformation').product.ps]",
+        "scope": "[parameters('keyInformation').scope.solr]",
+        "department": "[parameters('keyInformation').department]"
+      },
+      "properties": {
+        "securityRules": [
+        ]
+      }
+    },
+    {
+      "name": "[parameters('ZkNetworkSecurityGroupName')]",
+      "type": "Microsoft.Network/networkSecurityGroups",
+      "apiVersion": "[variables('SecurityGroupsApiVersion')]",
+      "location": "[resourceGroup().location]",
+      "tags": {
+        "displayName": "[parameters('networkName')]",
+        "environment": "[parameters('keyInformation').environment]",
+        "product": "[parameters('keyInformation').product.ps]",
+        "department": "[parameters('keyInformation').department]"
+      },
+      "properties": {
+        "securityRules": [
+        ]
+      }
+    },
+    {
+      "name": "[parameters('CbaseNetworkSecurityGroupName')]",
+      "type": "Microsoft.Network/networkSecurityGroups",
+      "apiVersion": "[variables('SecurityGroupsApiVersion')]",
+      "location": "[resourceGroup().location]",
+      "tags": {
+        "displayName": "[parameters('networkName')]",
+        "environment": "[parameters('keyInformation').environment]",
+        "product": "[parameters('keyInformation').product.ps]",
+        "department": "[parameters('keyInformation').department]"
+      },
+      "properties": {
+        "securityRules": [
+        ]
+      }
+    },
+    {
+      "name": "[parameters('ASFNetworkSecurityGroupName')]",
+      "type": "Microsoft.Network/networkSecurityGroups",
+      "apiVersion": "[variables('SecurityGroupsApiVersion')]",
+      "location": "[resourceGroup().location]",
+      "tags": {
+        "displayName": "[parameters('networkName')]",
+        "environment": "[parameters('keyInformation').environment]",
+        "product": "[parameters('keyInformation').product.ps]",
+        "department": "[parameters('keyInformation').department]"
+      },
+      "properties": {
+        "securityRules": [
+        ]
+      }
+    },
+    {
+      "name": "[parameters('Neo4jNetworkSecurityGroupName')]",
+      "type": "Microsoft.Network/networkSecurityGroups",
+      "apiVersion": "[variables('SecurityGroupsApiVersion')]",
+      "location": "[resourceGroup().location]",
+      "tags": {
+        "displayName": "[parameters('networkName')]",
+        "environment": "[parameters('keyInformation').environment]",
+        "product": "[parameters('keyInformation').product.ps]",
+        "department": "[parameters('keyInformation').department]"
+      },
+      "properties": {
+        "securityRules": [
+        ]
+      }
+    },
+    {
+      "name": "[parameters('ApimNetworkSecurityGroupName')]",
+      "type": "Microsoft.Network/networkSecurityGroups",
+      "apiVersion": "[variables('SecurityGroupsApiVersion')]",
+      "location": "[resourceGroup().location]",
+      "tags": {
+        "displayName": "[parameters('networkName')]",
+        "environment": "[parameters('keyInformation').environment]",
+        "product": "[parameters('keyInformation').product.ps]",
+        "department": "[parameters('keyInformation').department]"
+      },
+      "properties": {
+        "securityRules": [
+          {
+            "name": "ManagementEndpointForAzurePortalAndPowershell",
+            "properties": {
+              "protocol": "TCP",
+              "sourcePortRange": "*",
+              "destinationPortRange": "3443",
+              "sourceAddressPrefix": "ApiManagement",
+              "destinationAddressPrefix": "VirtualNetwork",
+              "access": "Allow",
+              "priority": 120,
+              "direction": "Inbound",
+              "sourcePortRanges": [
+              ],
+              "destinationPortRanges": [
+              ],
+              "sourceAddressPrefixes": [
+              ],
+              "destinationAddressPrefixes": [
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "[parameters('AppGwNetworkSecurityGroupName')]",
+      "type": "Microsoft.Network/networkSecurityGroups",
+      "apiVersion": "[variables('SecurityGroupsApiVersion')]",
+      "location": "[resourceGroup().location]",
+      "tags": {
+        "displayName": "[parameters('networkName')]",
+        "environment": "[parameters('keyInformation').environment]",
+        "product": "[parameters('keyInformation').product.ps]",
+        "department": "[parameters('keyInformation').department]"
+      },
+      "properties": {
+        "securityRules": [
+          {
+            "name": "AppGW_Probe_Health",
+            "properties": {
+              "protocol": "Tcp",
+              "sourcePortRange": "*",
+              "destinationPortRange": "65200-65535",
+              "sourceAddressPrefix": "*",
+              "destinationAddressPrefix": "*",
+              "access": "Allow",
+              "priority": 100,
+              "direction": "Inbound"
+            }
+          },
+          {
+            "name": "allowHttp",
+            "properties": {
+              "protocol": "Tcp",
+              "sourcePortRange": "*",
+              "destinationPortRange": "80",
+              "sourceAddressPrefix": "*",
+              "destinationAddressPrefix": "*",
+              "access": "Allow",
+              "priority": 110,
+              "direction": "Inbound"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "[parameters('networkName')]",
+      "type": "Microsoft.Network/virtualNetworks",
+      "location": "[resourceGroup().location]",
+      "apiVersion": "[variables('VirtualNetworksApiVersion')]",
+      "dependsOn": [
+        "[resourceId('Microsoft.Network/networkSecurityGroups', parameters('SolrNetworkSecurityGroupName'))]",
+        "[resourceId('Microsoft.Network/networkSecurityGroups', parameters('ASFNetworkSecurityGroupName'))]",
+        "[resourceId('Microsoft.Network/networkSecurityGroups', parameters('Neo4jNetworkSecurityGroupName'))]",
+        "[resourceId('Microsoft.Network/networkSecurityGroups', parameters('CbaseNetworkSecurityGroupName'))]",
+        "[resourceId('Microsoft.Network/networkSecurityGroups', parameters('ZkNetworkSecurityGroupName'))]",
+        "[resourceId('Microsoft.Network/networkSecurityGroups', parameters('AppGwNetworkSecurityGroupName'))]",
+        "[resourceId('Microsoft.Network/networkSecurityGroups', parameters('ApimNetworkSecurityGroupName'))]"
+      ],
+      "tags": {
+        "displayName": "[parameters('networkName')]",
+        "environment": "[parameters('keyInformation').environment]",
+        "product": "[parameters('keyInformation').product.ps]",
+        "department": "[parameters('keyInformation').department]"
+      },
+      "properties": {
+        "addressSpace": {
+          "addressPrefixes": [
+            "[parameters('WKvirtualNetwork')]"
+          ]
+        },
+        "subnets": [
+          {
+            "name": "[concat(parameters('resourceName').SubnetName, parameters('keyInformation').product.ps, '-', parameters('keyInformation').scope.solr, '-', parameters('keyInformation').environment)]",
+            "properties": {
+              "addressPrefix": "[parameters('SolrSubnet')]",
+              "networkSecurityGroup": {
+                "id": "[resourceId('Microsoft.Network/networkSecurityGroups', parameters('SolrNetworkSecurityGroupName'))]"
+              }
+            }
+          },
+          {
+            "name": "[concat(parameters('resourceName').SubnetName, parameters('keyInformation').product.ps, '-', parameters('keyInformation').scope.asf, '-', parameters('keyInformation').environment)]",
+            "properties": {
+              "addressPrefix": "[parameters('ServiceFabricSubnet')]",
+              "networkSecurityGroup": {
+                "id": "[resourceId('Microsoft.Network/networkSecurityGroups', parameters('ASFNetworkSecurityGroupName'))]"
+              }
+            }
+          },
+          {
+            "name": "[concat(parameters('resourceName').SubnetName, parameters('keyInformation').product.ps, '-', parameters('keyInformation').scope.neo4j, '-', parameters('keyInformation').environment)]",
+            "properties": {
+              "addressPrefix": "[parameters('Neo4jSubnet')]",
+              "networkSecurityGroup": {
+                "id": "[resourceId('Microsoft.Network/networkSecurityGroups', parameters('Neo4jNetworkSecurityGroupName'))]"
+              }
+            }
+          },
+          {
+            "name": "[concat(parameters('resourceName').SubnetName, parameters('keyInformation').product.ps, '-', parameters('keyInformation').scope.cbase, '-', parameters('keyInformation').environment)]",
+            "properties": {
+              "addressPrefix": "[parameters('CouchBaseSubnet')]",
+              "networkSecurityGroup": {
+                "id": "[resourceId('Microsoft.Network/networkSecurityGroups', parameters('CbaseNetworkSecurityGroupName'))]"
+              }
+            }
+          },
+          {
+            "name": "[concat(parameters('resourceName').SubnetName, parameters('keyInformation').product.ps, '-', parameters('keyInformation').scope.zk, '-', parameters('keyInformation').environment)]",
+            "properties": {
+              "addressPrefix": "[parameters('ZookeeperSubnet')]",
+              "networkSecurityGroup": {
+                "id": "[resourceId('Microsoft.Network/networkSecurityGroups', parameters('ZkNetworkSecurityGroupName'))]"
+              }
+            }
+          },
+          {
+            "name": "[concat(parameters('resourceName').SubnetName, parameters('keyInformation').product.ps, '-', parameters('keyInformation').scope.apim, '-', parameters('keyInformation').environment)]",
+            "properties": {
+              "addressPrefix": "[parameters('ApimSubnet')]",
+              "networkSecurityGroup": {
+                "id": "[resourceId('Microsoft.Network/networkSecurityGroups', parameters('ApimNetworkSecurityGroupName'))]"
+              }
+            }
+          },
+          {
+            "name": "[concat(parameters('resourceName').SubnetName, parameters('keyInformation').product.ps, '-', parameters('keyInformation').scope.agw, '-', parameters('keyInformation').environment)]",
+            "properties": {
+              "addressPrefix": "[parameters('AppGwSubnet')]",
+              "networkSecurityGroup": {
+                "id": "[resourceId('Microsoft.Network/networkSecurityGroups', parameters('AppGwNetworkSecurityGroupName'))]"
+              }
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "outputs": {
+  }
+}
