@@ -17,6 +17,10 @@ kubectl describe deployments nginx-deployment
 
 kubectl expose deployment nginx-deployment --target-port=80 --type=NodePort
 
+kubectl create deployment nginx --image=nginx
+kubectl create service nodeport nginx --tcp=80:80
+
+
 ### VAGRANT KUBESPRAY ###
 
 cp inventory/sample/artifacts/admin.conf ~/.kube/config
@@ -31,6 +35,8 @@ http://localhost:8001/api/v1/namespaces/kube-system/services/https:kubernetes-da
 
 
 helm repo add bitnami https://charts.bitnami.com/bitnami
+helm repo add stable https://kubernetes-charts.storage.googleapis.com/
+
 helm search repo wordpress
 
 helm repo update

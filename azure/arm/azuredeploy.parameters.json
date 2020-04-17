@@ -1,0 +1,86 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "keyInformation": {
+            "value": {
+                "department": "wkh",
+                "scope": {
+                    "apim": "apim",
+                    "agw": "agw",
+                    "cbase": "cbase",
+                    "cosdb": "cosdb",
+                    "neo4j": "neo4j",
+                    "solr": "solr",
+                    "zk": "zk",
+                    "asf": "asf"
+                },
+                "product": {
+                    "ps": "ps",
+                    "ssr": "ssr"
+                },
+                "services" : {
+                    "browsing" : "kubernetes"
+                },
+                "environment": "k8s",
+                "tag": "clusterization"
+            }
+        },
+        "resourceName": {
+            "value": {
+                "NetworkSecurityGroupName": "nsg-",
+                "VirtualNetworkname": "vnet-",
+                "SubnetName": "snet-",
+                "pip": "pip",
+                "agw": "agw",
+                "kv": "kv",
+                "sb": "sb",
+                "vm" : "vm",
+                "as" : "avs",
+                "ni" : "nic",
+                "sa" : "sa",
+                "disk" : "disk",
+                "lb" : "lb",
+                "ppg": "ppg"
+            }
+        },
+        "imageOS" : {
+            "value": {
+                "publisher": "Canonical",
+                "offer": "UbuntuServer",
+                "sku": "16.04-LTS",
+                "version": "latest"
+            }
+        },
+        "osDiskType": {
+            "value": "Standard_LRS"
+        },
+        "virtualMachineSize": {
+            "value": "Standard_F2"
+        },
+        "adminUsername": {
+            "value": "wksearch"
+        },
+        "adminPublicKey": {
+            "value": "ssh-rsa AAAAB3NzaC1yc2EAAAABJQAAAQEAuuzfRmSomGPe0pZjgV5eL1lY46I3IKb4nBsv3yXVi8CQw4Y82pQYrP2cWANaL+/2lC5eNTUXdMou1I1hlP3JXrvn/6Q+UzZK2RmyLWWqVoDh72JYsx0YkqzFzO/piG+DN6OaZs+nIloul8Pt0+1iDz2Octm77DwLAmQ3vd9TUYEuhEWqvxKfKAI501aJFAY8D5FJoTSYVPpCgUma5ziYrmiVaxidzPUDLmVOF2VpL1dnb14GRg2982PL1bRbtY8jII3FqiUGmsHZ3gmnZdKARG3XBH33IHcjpIihj69GPjNYV8uttbtB4qK5XtqPNGOBOCYd3JciTXXemfxUTBG2mQ== rsa-key-20160406ssh-rsa AAAAB3NzaC1yc2EAAAABJQAAAQEAuuzfRmSomGPe0pZjgV5eL1lY46I3IKb4nBsv3yXVi8CQw4Y82pQYrP2cWANaL+/2lC5eNTUXdMou1I1hlP3JXrvn/6Q+UzZK2RmyLWWqVoDh72JYsx0YkqzFzO/piG+DN6OaZs+nIloul8Pt0+1iDz2Octm77DwLAmQ3vd9TUYEuhEWqvxKfKAI501aJFAY8D5FJoTSYVPpCgUma5ziYrmiVaxidzPUDLmVOF2VpL1dnb14GRg2982PL1bRbtY8jII3FqiUGmsHZ3gmnZdKARG3XBH33IHcjpIihj69GPjNYV8uttbtB4qK5XtqPNGOBOCYd3JciTXXemfxUTBG2mQ== rsa-key-20160406"
+        },
+        "diagnosticsStorageAccountType": {
+            "value": "Standard_LRS"
+        },
+        "diagnosticsStorageAccountKind": {
+            "value": "Storage"
+        },
+        "availabilitySetPlatformFaultDomainCount": {
+            "value": 3
+        },
+        "availabilitySetPlatformUpdateDomainCount": {
+            "value": 5
+        },
+        "virtualMachines_zkNodes" : {
+            "value": 3
+        },
+        "zkClusterIpRangeStart" : {
+            "value": 7
+        }
+    }
+}
