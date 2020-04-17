@@ -50,3 +50,5 @@ helm inspect values bitnami/wordpress > wordpress.yaml
 
 kubectl create namespace wordpress
 helm install wordpress --namespace wordpress bitnami/wordpress -f wordpress.yaml
+
+kubectl get pod -w -o wide --namespace wordpress

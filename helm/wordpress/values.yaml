@@ -227,7 +227,7 @@ readinessProbeHeaders: {}
 ## For minikube, set this to NodePort, elsewhere use LoadBalancer or ClusterIP
 ##
 service:
-  type: LoadBalancer
+  type: NodePort
   ## HTTP Port
   ##
   port: 80
