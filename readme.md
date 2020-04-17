@@ -44,3 +44,8 @@ helm inspect values bitnami/wordpress > wordpress.yaml
 
 kubectl create namespace wordpress
 helm install wordpress --namespace wordpress bitnami/wordpress -f wordpress.yaml
+kubectl scale --replicas 3 -n wordpress  deployment/wordpress
+
+
+kubectl label nodes <your-node-name> disktype=ssd
+kubectl label nodes k8s-2 nodename=two
