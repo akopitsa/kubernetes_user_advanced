@@ -238,6 +238,32 @@
             }
         },
         {
+            "apiVersion": "[providers('Microsoft.DevTestLab','labs').apiVersions[0]]",
+            "type": "microsoft.devtestlab/schedules",
+            "name": "[concat('shutdown-computevm-', concat(parameters('virtualMachineName'), '-', padLeft(copyIndex(1), 2, '0')))]",
+            "location": "[resourceGroup().location]",
+            "dependsOn": [
+                "[concat('Microsoft.Compute/virtualMachines/', concat(parameters('virtualMachineName'), '-', padLeft(copyIndex(1), 2, '0')))]"
+            ],
+            "copy": {
+                "name": "k8sVmLoop",
+                "count": "[parameters('virtualMachines_zkNodes')]"
+            },
+            "properties": {
+                "status": "Enabled",
+                "taskType": "ComputeVmShutdownTask",
+                "dailyRecurrence": {
+                    "time": "2300"
+                },
+                "timeZoneId": "FLE Standard Time",
+                "notificationSettings": {
+                    "status": "Disabled",
+                    "timeInMinutes": 15
+                },
+                "targetResourceId": "[resourceId('Microsoft.Compute/virtualMachines', concat(parameters('virtualMachineName'), '-', padLeft(copyIndex(1), 2, '0')))]"
+            }
+        },
+/*         {
             "name": "[concat(concat(parameters('virtualMachineName'), '-', padLeft(copyIndex(1), 2, '0')),'/', variables('diagnosticsExtensionName'), '-', padLeft(copyIndex(1), 2, '0'))]",
             "type": "Microsoft.Compute/virtualMachines/extensions",
             "apiVersion": "[variables('virtualMachinesExtensionsApiVersion')]",
@@ -1009,7 +1035,7 @@
                     "storageAccountEndPoint": "https://core.windows.net/"
                 }
             }
-        },
+        }, */
         {
             "name": "[concat(parameters('networkInterfaceName'), '-', padLeft(copyIndex(1), 2, '0'))]",
             "type": "Microsoft.Network/networkInterfaces",
