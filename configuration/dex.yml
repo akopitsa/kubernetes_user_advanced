@@ -6,9 +6,6 @@ metadata:
   name: dex
 spec:
   replicas: 3
-  selector:
-    matchLabels:
-      app: dex
   template:
     metadata:
       labels:
@@ -67,10 +64,6 @@ data:
       https: 0.0.0.0:5556
       tlsCert: /etc/dex/tls/tls.crt
       tlsKey: /etc/dex/tls/tls.key
-    frontend:
-      theme: "coreos"
-      issuer: "Example Co"
-      issuerUrl: "https://dex.k8s.24may.link:32000"
     connectors:
     - type: github
       id: github
@@ -86,7 +79,7 @@ data:
     staticClients:
     - id: example-app
       redirectURIs:
-      - 'https://login.dex.k8s.24may.link:32000/callback'
+      - 'http://127.0.0.1:5555/callback'
       name: 'Example App'
       secret: ZXhhbXBsZS1hcHAtc2VjcmV0
 
