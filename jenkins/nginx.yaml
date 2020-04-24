@@ -1,0 +1,23 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nginx
+  namespace: default 
+spec:
+  containers:
+    - image: nginx
+      name: nginx
+      env:
+      - name: SECRET_USERNAME
+        valueFrom:
+          secretKeyRef:
+            name: secret-default
+            key: username
+      - name: SECRET_PASSWORD
+        valueFrom:
+          secretKeyRef:
+            name: secret-default
+            key: password
+      ports:
+        - containerPort: 80
+          name: http

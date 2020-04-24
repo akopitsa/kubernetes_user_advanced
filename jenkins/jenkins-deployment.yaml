@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: jenkins-deployment
+  namespace: jenkins
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: jenkins
+      volume: jenkins
+  template:
+    metadata:
+      labels:
+        app: jenkins
+        volume: jenkins
+    spec:
+      initContainers:
+      - name: my-init-container-1
+        image: busybox
+        command: ["sh", "-c", "chown -R 1000:1000 /var/jenkins_home"]
+        volumeMounts:
+          - name: jenkins-pvc
+            mountPath: /var/jenkins_home
+      volumes:
+        - name: jenkins-pvc
+          persistentVolumeClaim:
+            claimName:  jenkins-pvc
+      containers:
+      - name: jenkins
+        image: jenkins/jenkins:lts
+        ports:
+        - containerPort: 8080
+        - containerPort: 50000
+        volumeMounts:
+          - name: jenkins-pvc
+            mountPath: /var/jenkins_home
+      volumes:
+        - name: jenkins-pvc
+          persistentVolumeClaim:
+            claimName:  jenkins-pvc

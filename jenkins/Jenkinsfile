@@ -1,0 +1,59 @@
+#!/usr/bin/groovy
+
+podTemplate(
+    name: 'test-pod',
+    label: 'test-pod',
+    containers: [
+        //containerTemplate(name: 'busybox', image: 'node:latest', command: 'cat', ttyEnabled: true),
+        //containerTemplate(name: 'docker', image: 'docker', command: 'cat', ttyEnabled: true),
+        containerTemplate(name: 'kubectl', image: 'roffe/kubectl', command: 'cat', ttyEnabled: true),
+        //containerTemplate(name: 'helm', image: 'lachlanevenson/k8s-helm:latest', command: 'cat', ttyEnabled: true)
+        
+    ],
+    volumes: [
+        hostPathVolume(mountPath: '/var/run/docker.sock', hostPath: '/var/run/docker.sock'),
+    ],
+    {    
+    node('test-pod') {
+    stage('SCM') {
+      container('kubectl') {
+        git 'https://github.com/akopitsa/kubernetes_user_advanced.git'
+      }
+    }
+    stage('Namespace Jenkins') {
+      container('kubectl') {
+        withKubeConfig([credentialsId: 'kube-sa', namespace: 'jenkins', serverUrl: 'https://10.26.7.7:6443']) {
+            sh 'kubectl get po -n jenkins'
+        }
+      }
+    }
+    stage('Namespace Dev') {
+      container('kubectl') {
+        sh 'sed -i "s/default/dev/g" nginx.yaml'  
+        sh 'sed -i "s/secret-default/secret-dev/g" nginx.yaml'
+        withKubeConfig([credentialsId: 'kube-sa', namespace: 'jenkins', serverUrl: 'https://10.26.7.7:6443']) {
+            sh 'kubectl apply -f nginx.yaml'
+            sh 'kubectl get po -n dev'
+        }
+      }
+    }
+    stage('Namespace Qa') {
+      container('kubectl') {
+          sh 'sed -i "s/dev/qa/g" nginx.yaml'
+          sh 'sed -i "s/secret-dev/secret-qa/g" nginx.yaml'  
+        withKubeConfig([credentialsId: 'kube-sa', namespace: 'jenkins', serverUrl: 'https://10.26.7.7:6443']) {
+            sh 'kubectl apply  -f nginx.yaml'
+            sh 'kubectl get po -n qa'
+        }
+      }
+    }
+    stage('Delete Pods') {
+        container('kubectl') {
+        withKubeConfig([credentialsId: 'kube-sa', namespace: 'jenkins', serverUrl: 'https://10.26.7.7:6443']) {
+            sh 'kubectl delete pod nginx -n dev'
+            sh 'kubectl delete pod nginx -n qa'
+        }
+        }
+    }
+  }
+})
