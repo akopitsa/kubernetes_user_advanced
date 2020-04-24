@@ -29,8 +29,13 @@ podTemplate(
     }
     stage('Namespace Dev') {
       container('kubectl') {
-        sh 'sed -i "s/default/dev/g" nginx.yaml'  
+        sh 'sed -i "s/default/dev/g" nginx.yaml'
         sh 'sed -i "s/secret-default/secret-dev/g" nginx.yaml'
+        sh 'sed -i "s/secret-default/secret-dev/g" secret.yaml'  
+        withCredentials([usernamePassword(credentialsId: 'secret-dev', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
+            sh 'sed -i "s/user-value/$USERNAME/g" secret.yaml'
+            sh 'sed -i "s/password-value/$PASSWORD/g" secret.yaml'
+        }
         withKubeConfig([credentialsId: 'kube-sa', namespace: 'jenkins', serverUrl: 'https://10.26.7.7:6443']) {
             sh 'kubectl apply -f nginx.yaml'
             sh 'kubectl get po -n dev'
@@ -40,7 +45,12 @@ podTemplate(
     stage('Namespace Qa') {
       container('kubectl') {
           sh 'sed -i "s/dev/qa/g" nginx.yaml'
-          sh 'sed -i "s/secret-dev/secret-qa/g" nginx.yaml'  
+          sh 'sed -i "s/secret-dev/secret-qa/g" nginx.yaml'
+          sh 'sed -i "s/secret-default/secret-dev/g" secret.yaml'
+            withCredentials([usernamePassword(credentialsId: 'secret-qa', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
+            sh 'sed -i "s/user-value/$USERNAME/g" secret.yaml'
+            sh 'sed -i "s/password-value/$PASSWORD/g" secret.yaml'
+        }  
         withKubeConfig([credentialsId: 'kube-sa', namespace: 'jenkins', serverUrl: 'https://10.26.7.7:6443']) {
             sh 'kubectl apply  -f nginx.yaml'
             sh 'kubectl get po -n qa'
