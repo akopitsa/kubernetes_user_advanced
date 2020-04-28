@@ -60,3 +60,32 @@ kubectl scale --replicas 3 -n wordpress  deployment/wordpress
 kubectl label nodes <your-node-name> disktype=ssd
 kubectl label nodes k8s-2 nodename=two
 
+### ChartMuseum
+
+helm repo add stable https://kubernetes-charts.storage.googleapis.com
+helm install stable/chartmuseum
+
+helm install mychartmuseum stable/chartmuseum
+
+Get the ChartMuseum URL by running:
+
+  export POD_NAME=$(kubectl get pods --namespace default -l "app=chartmuseum" -l "release=mychartmuseum" -o jsonpath="{.items[0].metadata.name}")
+  echo http://127.0.0.1:8080/
+  kubectl port-forward $POD_NAME 8080:8080 --namespace default
+
+  helm repo add local http://127.0.0.1:8080/
+
+  helm repo add chartmuseum http://localhost:8080
+
+  helm install incubator/chartmuseum --set env.open.DISABLE_API=false
+  
+  ## Install Helm Push plugin 
+helm plugin install https://github.com/chartmuseum/helm-push.git
+
+
+  ### Create chart
+
+  helm create mychart
+
+  helm install --dry-run --debug good-puppy ./mychart
+  helm install --dry-run --debug --set favoriteDrink=slurm good-puppy ./mychart
