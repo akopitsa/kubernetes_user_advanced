@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: jenkins-pvc
+  namespace: jenkins
+  annotations:
+    volume.beta.kubernetes.io/storage-class: fast
+spec:
+  storageClassName: fast
+  selector:
+    matchLabels:
+      volume: jenkins
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 3Gi
