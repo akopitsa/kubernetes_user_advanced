@@ -89,3 +89,11 @@ helm plugin install https://github.com/chartmuseum/helm-push.git
 
   helm install --dry-run --debug good-puppy ./mychart
   helm install --dry-run --debug --set favoriteDrink=slurm good-puppy ./mychart
+
+
+  helm repo update
+  helm dependency update mymysql/
+  helm dependency build petclinic/
+
+  helm push petclinic/ chartmuseum
+  
