@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: home-task-5
+  namespace: default 
+spec:
+  containers:
+    - image: 24may/variant-site:latest
+      name: variant
+      ports:
+        - containerPort: 80
+          name: http
