@@ -7,7 +7,10 @@ metadata:
     role: db
 spec:
   ports:
-    - port: 3306
+    - name: metrics 
+      port: 3306
+      targetPort: metrics
+      protocol: TCP
   selector:
     app: wordpress
     tier: mysql
